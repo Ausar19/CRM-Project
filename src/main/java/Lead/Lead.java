@@ -1,8 +1,7 @@
 package Lead;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
+import java.util.regex.*;
 
 public class Lead {
 
@@ -77,55 +76,123 @@ public class Lead {
     public static void convertID(int idNum) {
 
         Scanner input = new Scanner(System.in);
+        boolean incorrectInput = true;
+        boolean found = false;
+
+        System.out.println("Press Enter to process the conversion or type 'exit' to quit.");
+        String exit = input.nextLine();
 
         for (int i = 0; i < leadList.size(); i++) {
-            if (leadList.get(i).getId() == idNum) {
+            if (leadList.get(i).getID() == idNum) {
 
-                // Collect Opportunity parameters - number of trucks and product
-                System.out.println("Number of trucks: ");
-                int truckNum = Integer.parseInt(input.nextLine());
-                System.out.println("Select the product (insert the number)\n1 - BOX\n2 - FLATBED\n3 - HYBRID");
-                String chosenOne = input.next();
+                found = true;
 
-                Product product = null;
-                switch (chosenOne) {
-                    case "1" -> product = Product.BOX;
-                    case "2" -> product = Product.FLATBED;
-                    case "3" -> product = Product.HYBRID;
+                while (incorrectInput && !Objects.equals(exit, "exit")) {
+                    try {
+
+                        // Collect Opportunity parameters - number of trucks and product
+                        System.out.println("Fill in the following fields.");
+                        System.out.println("Number of trucks: ");
+                        int truckNum = input.nextInt();
+                        System.out.println("Select the product (insert the number)\n1 - BOX\n2 - FLATBED\n3 - HYBRID");
+                        int chosenOne = input.nextInt();
+
+                        Product product = null;
+                        while (product == null) {
+
+                            switch (chosenOne) {
+                                case 1 -> product = Product.BOX;
+                                case 2 -> product = Product.FLATBED;
+                                case 3 -> product = Product.HYBRID;
+                                default -> {
+                                    System.out.println("Invalid number, try again.");
+                                    chosenOne = input.nextInt();
+                                }
+                            }
+                        }
+                        //Creates a new Opportunity with the Lead's data
+                        Opportunity opportunity = new Opportunity(leadList.get(i).getName(), leadList.get(i).getPhoneNum(), leadList.get(i).getEmail(), leadList.get(i).getCompanyName(), product, truckNum);
+                    } catch (InputMismatchException e) {
+                        System.out.println("Please, insert a proper kind of data for each field.\n");
+                        convertID(idNum);
+                        break;
+                    }
+
+                    try {
+                        //Account info
+
+                        System.out.println("Opportunity successfully created! To complete the process you must create an Account.");
+                        System.out.println("City name: ");
+                        String city = input.next();
+                        System.out.println("Country of the organization: ");
+                        String country = input.next();
+                        System.out.println("Number of employees: ");
+                        int employees = input.nextInt();
+
+                        System.out.println("Select the product (insert the number)\n1 - ECOMMERCE\n2 - MANUFACTURING\n3 - MEDICAL\n4 - PRODUCE\n5 - OTHER");
+                        int chosenTwo = input.nextInt();
+
+                        Industry industry = null;
+                        while (industry == null) {
+                            switch (chosenTwo) {
+                                case 1 -> industry = Industry.ECOMMERCE;
+                                case 2 -> industry = Industry.MANUFACTURING;
+                                case 3 -> industry = Industry.MEDICAL;
+                                case 4 -> industry = Industry.PRODUCE;
+                                case 5 -> industry = Industry.OTHER;
+                                default -> {
+                                    System.out.println("Invalid number, try again.");
+                                    chosenTwo = input.nextInt();
+                                }
+                            }
+                        }
+
+                        //Creates a new Account
+                        Account account = new Account(industry, employees, city, country);
+                        //Add Lead.Lead to another list and delete it from the current one
+                        oldLeads.add(leadList.get(i));
+                        leadList.remove(leadList.get(i));
+                    } catch (InputMismatchException ex) {
+                        System.out.println("Invalid number, repeat the process.\n");
+                        convertID(idNum);
+
+
+                    }
+                    System.out.println("Account Created!\n");
+
+                    System.out.println("Type 'exit' to return to the main Menu or 'new' to convert another Lead.");
+
+                    while (true) {
+                        String command = input.next().toLowerCase();
+                        if ("exit".equals(command)) {
+                            incorrectInput = false;
+                            break;
+                        } else if ("new".equals(command)) {
+                            while (true) {
+                                try {
+                                    System.out.println("Insert a Id number: ");
+                                    idNum = input.nextInt();
+                                    convertID(idNum);
+                                    break;
+                                } catch (InputMismatchException exe) {
+                                    System.out.println("Please, insert an Id number or type exit to leave.");
+                                    break;
+                                }
+                            }
+                            break;
+                        }
+                        System.out.println("Please, insert a valid command.");
+                        break;
+                    }
                 }
 
-                //Account info
-                System.out.println("City name: ");
-                String city = input.next();
-                System.out.println("Country of the organization: ");
-                String country = input.next();
-                System.out.println("Number of employees: ");
-                int employees = Integer.parseInt(input.next());
-
-                System.out.println("Select the product (insert the number)\n1 - ECOMMERCE\n2 - MANUFACTURING\n3 - MEDICAL\n4 - PRODUCE\n5 - OTHER");
-                String chosenTwo = input.next();
-
-                Industry industry = null;
-                switch (chosenTwo) {
-                    case "1" -> industry = Industry.ECOMMERCE;
-                    case "2" -> industry = Industry.MANUFACTURING;
-                    case "3" -> industry = Industry.MEDICAL;
-                    case "4" -> industry = Industry.PRODUCE;
-                    case "5" -> industry = Industry.OTHER;
-                }
-
-                //Creates a new Opportunity with the Lead.Lead's data
-                Opportunity opportunity = new Opportunity(leadList.get(i).getName(), leadList.get(i).getPhoneNum(), leadList.get(i).getEmail(), leadList.get(i).getCompanyName(), product, truckNum);
-                //Creates a new Account
-                Account account = new Account(industry, employees, city, country);
-                //Add Lead.Lead to another list and delete it from the current one
-                oldLeads.add(leadList.get(i));
-                leadList.remove(leadList.get(i));
             }
+
         }
         // ID not found
-        System.err.println("This ID doesn't match with any Lead.Lead, it could have been converted in a Opportunity, type 'Show Opportunities' command to verify or insert the correct ID.");
-
+        if (!found)
+            System.err.println("This Id doesn't match with any Lead, it could have been already converted into a Opportunity, you can verify typing 'Show Opportunities' in the main Menu, otherwise try again with the correct Id.");
+        System.exit(1);
     }
 
     //getters
