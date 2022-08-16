@@ -1,7 +1,6 @@
 package Lead;
 
 import java.util.*;
-import java.util.regex.*;
 
 public class Lead {
 
@@ -154,7 +153,7 @@ public class Lead {
                         leadList.remove(leadList.get(i));
                     } catch (InputMismatchException ex) {
                         System.out.println("Invalid number, repeat the process.\n");
-                        convertID(idNum);
+                        convertID();
 
 
                     }
@@ -172,7 +171,7 @@ public class Lead {
                                 try {
                                     System.out.println("Insert a Id number: ");
                                     idNum = input.nextInt();
-                                    convertID(idNum);
+                                    convertID();
                                     break;
                                 } catch (InputMismatchException exe) {
                                     System.out.println("Please, insert an Id number or type exit to leave.");

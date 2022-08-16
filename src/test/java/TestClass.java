@@ -14,6 +14,6 @@ public class TestClass {
     @Test
     @DisplayName("Must return an exception ")
     void exceptionTest_convertId(){
-        assertThrows(InputMismatchException.class, () -> Lead.convertID(1));
+        assertThrows(InputMismatchException.class, () -> Lead.convertID());
     }
 }
