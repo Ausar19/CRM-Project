@@ -1,8 +1,10 @@
 package Lead;
 
 import Classes.Account;
+import Classes.Contact;
 import Classes.Enums.Industry;
 import Classes.Enums.Product;
+import Classes.Enums.Status;
 import Classes.Opportunity;
 
 import java.util.*;
@@ -12,12 +14,17 @@ public class Lead {
 
     private int id;
     private String name;
-    private int phoneNumber;
+    private String phoneNumber;
     private String email;
     private String companyName;
 
+
+    private static int idCounter;
+
+
     //constructor
-    public Lead(String name, int phoneNumber, String email, String companyName) {
+    public Lead(String name, String phoneNumber, String email, String companyName) {
+        setId();
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.email = email;
@@ -36,7 +43,7 @@ public class Lead {
         String leadName = sc.nextLine();
         //exception si el nombre es incorrecto
         System.out.println("Please input the new Lead's phone number");
-        String leadPhoneStr = sc.nextLine();
+        String leadPhone = sc.nextLine();
         //If() to see if it's numbers only and proper lenght, otherwise, return exception
         System.out.println("Please input the new Lead's email");
         String leadEmail = sc.nextLine();
@@ -44,7 +51,7 @@ public class Lead {
         System.out.println("Please input the new Lead's company name");
         String leadCompany = sc.nextLine();
 
-        int leadPhone = Integer.parseInt(leadPhoneStr);
+
         Lead newLead = new Lead(leadName, leadPhone, leadEmail, leadCompany);
 
         leadList.add(newLead);
@@ -126,8 +133,11 @@ public class Lead {
                                 }
                             }
                         }
-                        //Creates a new Opportunity with the Lead's data
-                        Opportunity opportunity = new Opportunity(leadList.get(i).getName(), leadList.get(i).getPhoneNum(), leadList.get(i).getEmail(), leadList.get(i).getCompanyName(), product, truckNum);
+                        //Creates a new Contact with the Lead's data
+                        Contact contact = new Contact(leadList.get(i).getName(), leadList.get(i).getPhoneNumber(), leadList.get(i).getEmail(), leadList.get(i).getCompanyName());
+                        Opportunity opportunity = new Opportunity(product, truckNum, contact, Status.OPEN);
+                        Opportunity.opportunitiesList.add(opportunity);
+
                     } catch (InputMismatchException e) {
                         System.out.println("Please, insert a proper kind of data for each field.\n");
                         convertID(idNum);
@@ -164,7 +174,9 @@ public class Lead {
                         }
 
                         //Creates a new Account
-                        Account account = new Account(industry, employees, city, country);
+                        List<Contact> contactList = new ArrayList<>();
+                        List<Opportunity> opportunityList = new ArrayList<>();
+                        Account account = new Account(industry, employees, city, country, contactList, opportunityList);
                         //Add Lead.Lead to another list and delete it from the current one
                         oldLeadList.add(leadList.get(i));
                         leadList.remove(leadList.get(i));
@@ -221,7 +233,7 @@ public class Lead {
         return name;
     }
 
-    public int getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
@@ -234,15 +246,15 @@ public class Lead {
     }
 
     //setters
-    public void setId(int id) {
-        this.id = id;
+    public void setId() {
+        this.id = idCounter++;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public void setPhoneNumber(int phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
@@ -253,6 +265,4 @@ public class Lead {
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
     }
-
-
 }

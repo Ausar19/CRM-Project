@@ -3,12 +3,12 @@ package Classes;
 public class Contact {
 
     String name;
-    int phoneNumber;
+    String phoneNumber;
     String email;
     String companyName;
 
     //constructors
-    public Contact(String name, int phoneNumber, String email, String companyName) {
+    public Contact(String name, String phoneNumber, String email, String companyName) {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.email = email;
@@ -20,7 +20,7 @@ public class Contact {
         return name;
     }
 
-    public int getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
@@ -32,12 +32,13 @@ public class Contact {
         return companyName;
     }
 
+
     //setters
     public void setName(String name) {
         this.name = name;
     }
 
-    public void setPhoneNumber(int phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 

@@ -1,94 +1,95 @@
 package MenuInput;
 
+import Classes.Opportunity;
 import Lead.Lead;
 
 import java.util.Scanner;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Menu {
+
+    static int id;
 
     public static void start() {
         Scanner input = new Scanner(System.in);
         String exit = null;
         while (exit != "exit") {
 
-            System.out.println("Write the preferred command:\n- New Lead\n- Show Leads\n- Lookup Leads ID\n- Convert ID\n- Close Lost ID\n- Close Won ID\n- Exit");
+            System.out.println("List of available commands:\n- New Lead\n- Show Leads\n- Lookup Lead ID\n- Convert ID\n- Close Lost ID\n- Close Won ID\n- Exit");
 
             String command = input.nextLine().toLowerCase();
 
+
             exit = command;
+
+            if (command.contains("lookup lead")) {
+
+            }
             switch (command) {
+
+
+
                 case "new lead" -> Lead.NewLead();
 
                 case "show leads" -> Lead.showLeads();
 
-                case "lookup leads id" -> System.out.println("Write the Lead Id:");
-
+                case "lookup Lead ID" -> {
+                    System.out.println("Write the Lead Id:");
                     try {
-                        int id = input.nextInt();
+                        id = input.nextInt();
                         Lead.LookUpLead(id);
-                        break;
+                    }
+                    catch (ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+
+                case "convert id" -> {
+                    Lead.convertID(id);
+                    try {
+                        int id2 = input.nextInt();
+                        Lead.convertID(id2);
                     } catch (InputMismatchException e) {
                         System.err.println("Invalid input, please write a valid Id number");
-                        break;
                     }
-
-
-                case "convert id" -> Lead.convertID(int id);
-                try {
-                    int id2 = input.nextInt();
-                    Lead.convertID(id2);
-                    break;
-                } catch (InputMismatchException e) {
-                    System.err.println("Invalid input, please write a valid Id number");
-                    break;
                 }
 
-                case "close lost id" -> System.out.println("Write the Oportunity Id");
-                try {
-                    int idOpp = input.nextInt();
-                    Opportunity.closeLostId(idOpp);
-                    break;
-                } catch (InputMismatchException e) {
-                    System.err.println("Invalid input, please write a valid Id number");
-                    break;
+                case "close lost id" -> {
+                    System.out.println("Write the Oportunity Id");
+                    try {
+                        int idOpp = input.nextInt();
+                        Opportunity.closeLost(idOpp);
+                    } catch (InputMismatchException e) {
+                        throw e;
+                    } catch (ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
 
 
-                case "close won id" -> System.out.println("Write the Oportunity Id");
-                try {
-                    int idOpp2 = input.nextInt();
-                    Opportunity.closeWonId(idOpp2);
-                    break;
-                } catch (InputMismatchException e) {
-                    System.err.println("Invalid input, please write a valid Id number");
-                    break;
+                case "close won id" -> {
+                    System.out.println("Write the Oportunity Id");
+                    try {
+                        int idOpp2 = input.nextInt();
+                        Opportunity.closeWon(idOpp2);
+
+                    } catch (InputMismatchException e) {
+                        System.err.println("Invalid input, please write a valid Id number");
+
+                    } catch (ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
 
                 default -> {
                     if(command != "exit")
-                            System.out.println("The Command doesn't exist try again");
+                        System.out.println("The Command doesn't exist try again");
                 }
 
             }
         }
-
-    }
-//Contenido Clase Opportunity
-    public void closeLostId(int id){
-        for(int i = 0, opportunityList.size(), i++){
-            if(opportunityList.get(i).getId() == id){
-                opportunityList.get(i).setStatus(Status.CLOSED_LOST);
-            }
-        }System.err.println("Invalid Id, please write another Id:");
-    }
-
-    public void closeWonId(int id){
-        for(int i = 0, opportunityList.size(), i++){
-            if(opportunityList.get(i).getId() == id){
-                opportunityList.get(i).setStatus(Status.CLOSED_WON);
-            }
-        }System.err.println("Invalid Id, please write another Id:");
     }
 
 }

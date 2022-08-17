@@ -28,7 +28,6 @@ public class Opportunity {
         this.status = status;
     }
 
-
     public static void closeLost(int id) throws ClassNotFoundException {
         boolean found = false;
         for (int i = 0; i < opportunitiesList.size(); i++) {
