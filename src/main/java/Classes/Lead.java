@@ -1,14 +1,10 @@
-package Lead;
+package Classes;
 
-import Classes.Account;
-import Classes.Contact;
 import Classes.Enums.Industry;
 import Classes.Enums.Product;
 import Classes.Enums.Status;
-import Classes.Opportunity;
 
 import java.util.*;
-import java.util.regex.*;
 
 public class Lead {
 
@@ -35,7 +31,7 @@ public class Lead {
 
     static ArrayList<Lead> oldLeadList = new ArrayList<Lead>();
 
-    public static void NewLead() {
+    public static void newLead() {
 
         Scanner sc = new Scanner(System.in);
 
@@ -69,7 +65,7 @@ public class Lead {
 
     }
 
-    public static void LookUpLead(int id) throws ClassNotFoundException {
+    public static void lookUpLead(int id) throws ClassNotFoundException {
         boolean found = false;
         for (int i = 0; i < leadList.size(); i++) {
             Integer leadID = leadList.get(i).getId();
@@ -177,7 +173,7 @@ public class Lead {
                         List<Contact> contactList = new ArrayList<>();
                         List<Opportunity> opportunityList = new ArrayList<>();
                         Account account = new Account(industry, employees, city, country, contactList, opportunityList);
-                        //Add Lead.Lead to another list and delete it from the current one
+                        //Add Classes.Lead to another list and delete it from the current one
                         oldLeadList.add(leadList.get(i));
                         leadList.remove(leadList.get(i));
                     } catch (InputMismatchException ex) {

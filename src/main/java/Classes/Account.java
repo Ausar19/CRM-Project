@@ -42,7 +42,7 @@ public class Account {
         }
     }
 
-    public static void LookUpAccount(int id) throws RuntimeException{
+    public static void lookUpAccount(int id) throws RuntimeException{
         if (accountsList.size() == 0){
             throw new RuntimeException("There are no Accounts saved in our database.");
         } else {

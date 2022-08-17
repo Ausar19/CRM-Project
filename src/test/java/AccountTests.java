@@ -5,7 +5,6 @@ import Classes.Opportunity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +23,7 @@ public class AccountTests {
     @Test
     void testLoopUp() {
 
-        assertThrows(RuntimeException.class, () -> Account.LookUpAccount(3));
+        assertThrows(RuntimeException.class, () -> Account.lookUpAccount(3));
 
     }
 

@@ -1,18 +1,16 @@
 package MenuInput;
 
 import Classes.Opportunity;
-import Lead.Lead;
+import Classes.Lead;
 
 import java.util.Scanner;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Menu {
 
     static int id;
 
-    public static void start() {
+    public static void start() throws ClassNotFoundException {
         Scanner input = new Scanner(System.in);
         String exit = null;
         while (exit != "exit") {
@@ -25,13 +23,16 @@ public class Menu {
             exit = command;
 
             if (command.contains("lookup lead")) {
+                String[] splitCommand = command.split(" ");
+                String id = splitCommand[splitCommand.length-1];
 
+                Lead.lookUpLead(Integer.parseInt(id));
             }
             switch (command) {
 
 
 
-                case "new lead" -> Lead.NewLead();
+                case "new lead" -> Lead.newLead();
 
                 case "show leads" -> Lead.showLeads();
 
@@ -39,7 +40,7 @@ public class Menu {
                     System.out.println("Write the Lead Id:");
                     try {
                         id = input.nextInt();
-                        Lead.LookUpLead(id);
+                        Lead.lookUpLead(id);
                     }
                     catch (ClassNotFoundException e) {
                         throw new RuntimeException(e);
