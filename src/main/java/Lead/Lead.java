@@ -1,6 +1,12 @@
 package Lead;
 
+import Classes.Account;
+import Classes.Enums.Industry;
+import Classes.Enums.Product;
+import Classes.Opportunity;
+
 import java.util.*;
+import java.util.regex.*;
 
 public class Lead {
 
@@ -45,13 +51,19 @@ public class Lead {
     }
 
     public static void showLeads() {
-        for (int i = 0; i < leadList.size(); i++) {
-            System.out.println("Lead with ID: " + leadList.get(i).getId() +" \n Name: " + leadList.get(i).getName());
-            System.out.println("===");
+        if (leadList.size() == 0){
+            throw new RuntimeException("Currently our systems don't have any Leads in the database");
+        } else {
+            for (int i = 0; i < leadList.size(); i++) {
+                System.out.println("Lead with ID: " + leadList.get(i).getId() + " \n Name: " + leadList.get(i).getName());
+                System.out.println("===");
+            }
         }
+
     }
 
-    public static void LookUpLead(int id) {
+    public static void LookUpLead(int id) throws ClassNotFoundException {
+        boolean found = false;
         for (int i = 0; i < leadList.size(); i++) {
             Integer leadID = leadList.get(i).getId();
             if (leadID.equals(id)) {
@@ -59,16 +71,20 @@ public class Lead {
                         "This ID corresponds to the Lead: " + leadList.get(i).getName() + " \n " +
                         "Lead phone number: " + leadList.get(i).getPhoneNumber() + " \n" +
                         "Lead Company: " + leadList.get(i).getCompanyName());
+                found = true;
             } else {
                 for (int j = 0; j < oldLeadList.size() ; j++) {
                     leadID = leadList.get(i).getId();
                     if (leadID.equals(id)) {
                         System.out.println("The ID you introduced corresponds to a Lead that has became an Opportunity " +
                                 "and is no longer in our system");
-                        //throw exception here?
+                        found = true;
                     }
                 }
             }
+        }
+        if (!found) {
+            throw new ClassNotFoundException("The ID you introduced doesn't correspond to any Lead in our system.");
         }
     }
 
@@ -78,11 +94,11 @@ public class Lead {
         boolean incorrectInput = true;
         boolean found = false;
 
-        System.out.println("Press Enter to process the conversion or type 'exit' to get back to the main Menu.");
+        System.out.println("Press Enter to process the conversion or type 'exit' to quit.");
         String exit = input.nextLine();
 
         for (int i = 0; i < leadList.size(); i++) {
-            if (leadList.get(i).getID() == idNum) {
+            if (leadList.get(i).getId() == idNum) {
 
                 found = true;
 
@@ -100,6 +116,7 @@ public class Lead {
                         while (product == null) {
 
                             switch (chosenOne) {
+
                                 case 1 -> product = Product.BOX;
                                 case 2 -> product = Product.FLATBED;
                                 case 3 -> product = Product.HYBRID;
@@ -110,9 +127,7 @@ public class Lead {
                             }
                         }
                         //Creates a new Opportunity with the Lead's data
-                        Contact contact = new Contact(leadList.get(i).getName(), leadList.get(i).getPhoneNumber(), leadList.get(i).getEmail(), leadList.get(i).getCompanyName());
-                        Opportunity opportunity = new Opportunity(product, truckNum, contact, Status.OPEN);
-                        Opportunity.opportunitiesList.add(opportunity);
+                        Opportunity opportunity = new Opportunity(leadList.get(i).getName(), leadList.get(i).getPhoneNum(), leadList.get(i).getEmail(), leadList.get(i).getCompanyName(), product, truckNum);
                     } catch (InputMismatchException e) {
                         System.out.println("Please, insert a proper kind of data for each field.\n");
                         convertID(idNum);
@@ -151,11 +166,11 @@ public class Lead {
                         //Creates a new Account
                         Account account = new Account(industry, employees, city, country);
                         //Add Lead.Lead to another list and delete it from the current one
-                        oldLeads.add(leadList.get(i));
+                        oldLeadList.add(leadList.get(i));
                         leadList.remove(leadList.get(i));
                     } catch (InputMismatchException ex) {
                         System.out.println("Invalid number, repeat the process.\n");
-                        convertID();
+                        convertID(idNum);
 
 
                     }
@@ -173,7 +188,7 @@ public class Lead {
                                 try {
                                     System.out.println("Insert a Id number: ");
                                     idNum = input.nextInt();
-                                    convertID();
+                                    convertID(idNum);
                                     break;
                                 } catch (InputMismatchException exe) {
                                     System.out.println("Please, insert an Id number or type exit to leave.");
@@ -190,10 +205,11 @@ public class Lead {
             }
 
         }
+
         // ID not found
         if (!found)
             System.err.println("This Id doesn't match with any Lead, it could have been already converted into a Opportunity, you can verify typing 'Show Opportunities' in the main Menu, otherwise try again with the correct Id.");
-            System.exit(1);
+        System.exit(1);
     }
 
     //getters
