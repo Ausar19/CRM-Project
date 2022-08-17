@@ -42,13 +42,14 @@ public class Account {
         }
     }
 
-    public static void LookUpAccount(int id) {
+    public static void LookUpAccount(int id) throws RuntimeException{
         if (accountsList.size() == 0){
             throw new RuntimeException("There are no Accounts saved in our database.");
         } else {
             for (int i = 0; i < accountsList.size(); i++) {
                 Integer leadID = accountsList.get(i).getId();
                 if (leadID.equals(id)) {
+
                     System.out.println(
                             "This ID corresponds to the account from a " + accountsList.get(i).getIndustry() +
                             " company with " + accountsList.get(i).getEmployeeCount() + "employees. \n" +

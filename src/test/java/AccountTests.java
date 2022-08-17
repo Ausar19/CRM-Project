@@ -23,7 +23,9 @@ public class AccountTests {
 
     @Test
     void testLoopUp() {
-        Account.LookUpAccount(01);
+
+        assertThrows(RuntimeException.class, () -> Account.LookUpAccount(3));
+
     }
 
 
