@@ -46,7 +46,7 @@ public class Lead {
 
     public static void showLeads() {
         for (int i = 0; i < leadList.size(); i++) {
-            System.out.println("Lead with ID: " + leadList.get(i).getId() " \n Name: " + leadList.get(i).getName());
+            System.out.println("Lead with ID: " + leadList.get(i).getId() +" \n Name: " + leadList.get(i).getName());
             System.out.println("===");
         }
     }
