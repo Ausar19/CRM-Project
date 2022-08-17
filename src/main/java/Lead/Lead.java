@@ -79,7 +79,7 @@ public class Lead {
         boolean incorrectInput = true;
         boolean found = false;
 
-        System.out.println("Press Enter to process the conversion or type 'exit' to quit.");
+        System.out.println("Press Enter to process the conversion or type 'exit' to get back to the main Menu.");
         String exit = input.nextLine();
 
         for (int i = 0; i < leadList.size(); i++) {
@@ -111,7 +111,9 @@ public class Lead {
                             }
                         }
                         //Creates a new Opportunity with the Lead's data
-                        Opportunity opportunity = new Opportunity(leadList.get(i).getName(), leadList.get(i).getPhoneNum(), leadList.get(i).getEmail(), leadList.get(i).getCompanyName(), product, truckNum);
+                        Contact contact = new Contact(leadList.get(i).getName(), leadList.get(i).getPhoneNumber(), leadList.get(i).getEmail(), leadList.get(i).getCompanyName());
+                        Opportunity opportunity = new Opportunity(product, truckNum, contact, Status.OPEN);
+                        Opportunity.opportunitiesList.add(opportunity);
                     } catch (InputMismatchException e) {
                         System.out.println("Please, insert a proper kind of data for each field.\n");
                         convertID(idNum);
@@ -192,7 +194,7 @@ public class Lead {
         // ID not found
         if (!found)
             System.err.println("This Id doesn't match with any Lead, it could have been already converted into a Opportunity, you can verify typing 'Show Opportunities' in the main Menu, otherwise try again with the correct Id.");
-        System.exit(1);
+            System.exit(1);
     }
 
     //getters
