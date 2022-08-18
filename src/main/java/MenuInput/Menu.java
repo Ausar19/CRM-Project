@@ -1,5 +1,6 @@
 package MenuInput;
 
+import Classes.Account;
 import Classes.Opportunity;
 import Classes.Lead;
 
@@ -13,84 +14,54 @@ public class Menu {
     public static void start() throws ClassNotFoundException {
         Scanner input = new Scanner(System.in);
         String exit = null;
-        while (exit != "exit") {
+        int id = 0;
+        while (!Objects.equals(exit, "exit")) {
 
             System.out.println("List of available commands:\n- New Lead\n- Show Leads\n- Lookup Lead ID\n- Convert ID\n- Close Lost ID\n- Close Won ID\n- Exit");
 
-            String command = input.nextLine().toLowerCase();
-
+            String command = input.nextLine().toLowerCase().trim();
 
             exit = command;
 
-            if (command.contains("lookup lead")) {
+            if (command.contains("lookup account") || command.contains("lookup opportunity") ||
+                command.contains("lookup lead") || command.contains("close lost") || command.contains("close won")) {
                 String[] splitCommand = command.split(" ");
-                String id = splitCommand[splitCommand.length-1];
+                id = Integer.parseInt(splitCommand[splitCommand.length - 1]);
 
-                Lead.lookUpLead(Integer.parseInt(id));
+                command = splitCommand[0] + " " + splitCommand[1];
+
+            } else if (command.contains("convert")) {
+                String[] splitCommand = command.split(" ");
+                id = Integer.parseInt(splitCommand[splitCommand.length - 1]);
+                command = splitCommand[0];
             }
             switch (command) {
-
-
 
                 case "new lead" -> Lead.newLead();
 
                 case "show leads" -> Lead.showLeads();
 
-                case "lookup Lead ID" -> {
-                    System.out.println("Write the Lead Id:");
-                    try {
-                        id = input.nextInt();
-                        Lead.lookUpLead(id);
-                    }
-                    catch (ClassNotFoundException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
+                case "show opportunities" -> Opportunity.showOpportunities();
 
-                case "convert id" -> {
-                    Lead.convertID(id);
-                    try {
-                        int id2 = input.nextInt();
-                        Lead.convertID(id2);
-                    } catch (InputMismatchException e) {
-                        System.err.println("Invalid input, please write a valid Id number");
-                    }
-                }
+                case "show accounts" -> Account.showAccounts();
 
-                case "close lost id" -> {
-                    System.out.println("Write the Oportunity Id");
-                    try {
-                        int idOpp = input.nextInt();
-                        Opportunity.closeLost(idOpp);
-                    } catch (InputMismatchException e) {
-                        throw e;
-                    } catch (ClassNotFoundException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
+                case "lookup lead" -> Lead.lookUpLead(id);
 
+                case "lookup opportunity" -> Opportunity.lookUpOpportunity(id);
 
-                case "close won id" -> {
-                    System.out.println("Write the Oportunity Id");
-                    try {
-                        int idOpp2 = input.nextInt();
-                        Opportunity.closeWon(idOpp2);
+                case "lookup account" -> Account.lookUpAccount(id);
 
-                    } catch (InputMismatchException e) {
-                        System.err.println("Invalid input, please write a valid Id number");
+                case "convert" -> Lead.convertID(id);
 
-                    } catch (ClassNotFoundException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
+                case "close lost" -> Opportunity.closeLost(id);
+
+                case "close won" -> Opportunity.closeWon(id);
 
                 default -> {
-                    if(command != "exit")
-                        System.out.println("The Command doesn't exist try again");
-                }
+                    if (!command.equals("exit")) System.out.println("The Command doesn't exist try again");
 
+                }
             }
         }
     }
-
 }
