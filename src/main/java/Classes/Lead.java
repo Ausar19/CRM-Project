@@ -96,7 +96,6 @@ public class Lead {
 
         Scanner input = new Scanner(System.in);
         Pattern regex = Pattern.compile("[\sS]*[^a-z-A-Z]+");
-        boolean incorrectInput = true;
         boolean found = false;
 
         //Since it's a long process, this allows the user to interrupt it from the beginning
@@ -108,7 +107,7 @@ public class Lead {
 
                 found = true;
 
-                while (incorrectInput && !Objects.equals(exit, "exit")) {
+                while (!Objects.equals(exit, "exit")) {
                     try {
 
                         // Collect Opportunity parameters - number of trucks and product
