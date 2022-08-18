@@ -17,7 +17,7 @@ public class Menu {
         int id = 0;
         while (!Objects.equals(exit, "exit")) {
 
-            System.out.println("List of available commands:\n- New Lead\n- Show Leads\n- Lookup Lead ID\n- Convert ID\n- Close Lost ID\n- Close Won ID\n- Exit");
+            System.out.println("List of available commands:\n- New Lead\n- Show Leads\n- Show Opportunities\n- Show Accounts\n- Lookup Lead ID\n- Convert ID\n- Close Lost ID\n- Close Won ID\n- Exit");
 
             String command = input.nextLine().toLowerCase().trim();
 
@@ -26,14 +26,25 @@ public class Menu {
             if (command.contains("lookup account") || command.contains("lookup opportunity") ||
                 command.contains("lookup lead") || command.contains("close lost") || command.contains("close won")) {
                 String[] splitCommand = command.split(" ");
-                id = Integer.parseInt(splitCommand[splitCommand.length - 1]);
+                try {
+                    id = Integer.parseInt(splitCommand[splitCommand.length - 1]);
+                }catch(NumberFormatException e){
+                    command = "EXCEPTION";
+                }
+
 
                 command = splitCommand[0] + " " + splitCommand[1];
 
             } else if (command.contains("convert")) {
                 String[] splitCommand = command.split(" ");
-                id = Integer.parseInt(splitCommand[splitCommand.length - 1]);
                 command = splitCommand[0];
+                try {
+                    id = Integer.parseInt(splitCommand[splitCommand.length - 1]);
+                }catch(NumberFormatException e){
+                    command = "EXCEPTION";
+
+                }
+
             }
             switch (command) {
 
@@ -56,6 +67,8 @@ public class Menu {
                 case "close lost" -> Opportunity.closeLost(id);
 
                 case "close won" -> Opportunity.closeWon(id);
+
+                case "EXCEPTION" -> System.err.println("Invalid Id number.");
 
                 default -> {
                     if (!command.equals("exit")) System.out.println("The Command doesn't exist try again");
