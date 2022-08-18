@@ -5,6 +5,7 @@ import Classes.Enums.Product;
 import Classes.Enums.Status;
 
 import java.util.*;
+import java.util.regex.Pattern;
 
 public class Lead {
 
@@ -54,7 +55,7 @@ public class Lead {
     }
 
     public static void showLeads() {
-        if (leadList.size() == 0){
+        if (leadList.size() == 0) {
             throw new RuntimeException("Currently our systems don't have any Leads in the database");
         } else {
             for (int i = 0; i < leadList.size(); i++) {
@@ -72,11 +73,11 @@ public class Lead {
             if (leadID.equals(id)) {
                 System.out.println(
                         "This ID corresponds to the Lead: " + leadList.get(i).getName() + " \n " +
-                        "Lead phone number: " + leadList.get(i).getPhoneNumber() + " \n" +
-                        "Lead Company: " + leadList.get(i).getCompanyName());
+                                "Lead phone number: " + leadList.get(i).getPhoneNumber() + " \n" +
+                                "Lead Company: " + leadList.get(i).getCompanyName());
                 found = true;
             } else {
-                for (int j = 0; j < oldLeadList.size() ; j++) {
+                for (int j = 0; j < oldLeadList.size(); j++) {
                     leadID = leadList.get(i).getId();
                     if (leadID.equals(id)) {
                         System.out.println("The ID you introduced corresponds to a Lead that has became an Opportunity " +
@@ -94,9 +95,11 @@ public class Lead {
     public static void convertID(int idNum) {
 
         Scanner input = new Scanner(System.in);
+        Pattern regex = Pattern.compile("[\sS]*[^a-z-A-Z]+");
         boolean incorrectInput = true;
         boolean found = false;
 
+        //Since it's a long process, this allows the user to interrupt it from the beginning
         System.out.println("Press Enter to process the conversion or type 'exit' to quit.");
         String exit = input.nextLine();
 
@@ -146,8 +149,20 @@ public class Lead {
                         System.out.println("Opportunity successfully created! To complete the process you must create an Account.");
                         System.out.println("City name: ");
                         String city = input.next();
+
+                        while (city.matches(String.valueOf(regex))) {
+                            System.out.println("Please, insert a valid city name: ");
+                            city = input.next();
+                        }
+
                         System.out.println("Country of the organization: ");
                         String country = input.next();
+
+                        while (country.matches(String.valueOf(regex))) {
+                            System.out.println("Please, insert a valid country name: ");
+                            country = input.next();
+                        }
+
                         System.out.println("Number of employees: ");
                         int employees = input.nextInt();
 
@@ -169,45 +184,22 @@ public class Lead {
                             }
                         }
 
-                        //Creates a new Account
+                        //Creates a new Account and a list for Contact and Opportunity
                         List<Contact> contactList = new ArrayList<>();
                         List<Opportunity> opportunityList = new ArrayList<>();
                         Account account = new Account(industry, employees, city, country, contactList, opportunityList);
-                        //Add Classes.Lead to another list and delete it from the current one
+
+                        //Add Lead to another list and delete it from the current one
                         oldLeadList.add(leadList.get(i));
                         leadList.remove(leadList.get(i));
                     } catch (InputMismatchException ex) {
-                        System.out.println("Invalid number, repeat the process.\n");
+                        System.out.println("Invalid number, aborting process...\n");
                         convertID(idNum);
 
 
                     }
                     System.out.println("Account Created!\n");
-
-                    System.out.println("Type 'exit' to return to the main Menu or 'new' to convert another Lead.");
-
-                    while (true) {
-                        String command = input.next().toLowerCase();
-                        if ("exit".equals(command)) {
-                            incorrectInput = false;
-                            break;
-                        } else if ("new".equals(command)) {
-                            while (true) {
-                                try {
-                                    System.out.println("Insert a Id number: ");
-                                    idNum = input.nextInt();
-                                    convertID(idNum);
-                                    break;
-                                } catch (InputMismatchException exe) {
-                                    System.out.println("Please, insert an Id number or type exit to leave.");
-                                    break;
-                                }
-                            }
-                            break;
-                        }
-                        System.out.println("Please, insert a valid command.");
-                        break;
-                    }
+                    break;
                 }
 
             }
@@ -215,10 +207,11 @@ public class Lead {
         }
 
         // ID not found
-        if (!found)
-            System.err.println("This Id doesn't match with any Lead, it could have been already converted into a Opportunity, you can verify typing 'Show Opportunities' in the main Menu, otherwise try again with the correct Id.");
-        System.exit(1);
+        if (!found && !exit.equals("exit")) {
+            System.out.println("This Id doesn't match with any Lead, it could have been already converted into a Opportunity, you can verify typing 'Show Opportunities' in the main Menu, otherwise try again with the correct Id.");
+        }
     }
+
 
     //getters
     public int getId() {

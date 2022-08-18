@@ -24,14 +24,27 @@ public class Menu {
 
             if (command.contains("lookup lead") || command.contains("close lost") || command.contains("close won")) {
                 String[] splitCommand = command.split(" ");
-                id = Integer.parseInt(splitCommand[splitCommand.length - 1]);
+                try {
+                    id = Integer.parseInt(splitCommand[splitCommand.length - 1]);
+                }catch(NumberFormatException e){
+                    System.err.println("Invalid Id number.");
+                    command = "";
+                }
+
 
                 command = splitCommand[0] + " " + splitCommand[1];
 
             } else if (command.contains("convert")) {
                 String[] splitCommand = command.split(" ");
-                id = Integer.parseInt(splitCommand[splitCommand.length - 1]);
                 command = splitCommand[0];
+                try {
+                    id = Integer.parseInt(splitCommand[splitCommand.length - 1]);
+                }catch(NumberFormatException e){
+                    System.err.println("Invalid Id number.");
+                    command = "";
+
+                }
+
             }
             switch (command) {
 
