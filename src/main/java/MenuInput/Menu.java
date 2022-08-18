@@ -1,5 +1,6 @@
 package MenuInput;
 
+import Classes.Account;
 import Classes.Opportunity;
 import Classes.Lead;
 
@@ -22,7 +23,8 @@ public class Menu {
 
             exit = command;
 
-            if (command.contains("lookup lead") || command.contains("close lost") || command.contains("close won")) {
+            if (command.contains("lookup account") || command.contains("lookup opportunity") ||
+                command.contains("lookup lead") || command.contains("close lost") || command.contains("close won")) {
                 String[] splitCommand = command.split(" ");
                 try {
                     id = Integer.parseInt(splitCommand[splitCommand.length - 1]);
@@ -52,7 +54,15 @@ public class Menu {
 
                 case "show leads" -> Lead.showLeads();
 
+                case "show opportunities" -> Opportunity.showOpportunities();
+
+                case "show accounts" -> Account.showAccounts();
+
                 case "lookup lead" -> Lead.lookUpLead(id);
+
+                case "lookup opportunity" -> Opportunity.lookUpOpportunity(id);
+
+                case "lookup account" -> Account.lookUpAccount(id);
 
                 case "convert" -> Lead.convertID(id);
 

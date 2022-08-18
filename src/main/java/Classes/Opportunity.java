@@ -65,7 +65,7 @@ public class Opportunity {
         }
     }
 
-    public static void LookUpOpportunity(int id) {
+    public static void lookUpOpportunity(int id) {
         if (opportunitiesList.size() == 0){
             throw new RuntimeException("There are no Opportunities saved in our database.");
         } else {
