@@ -4,6 +4,7 @@ import Classes.Enums.Industry;
 import Classes.Enums.Product;
 import Classes.Enums.Status;
 
+import java.security.InvalidParameterException;
 import java.util.*;
 
 public class Lead {
@@ -28,25 +29,84 @@ public class Lead {
     }
 
     static ArrayList<Lead> leadList = new ArrayList<Lead>();
-
     static ArrayList<Lead> oldLeadList = new ArrayList<Lead>();
 
+    static String leadName;
+    static String leadPhone;
+    static String leadEmail;
+    static String leadCompany;
     public static void newLead() {
-
+        boolean correct =false;
         Scanner sc = new Scanner(System.in);
+        while (!correct) {
+            try {
+                System.out.println("Please input the new Lead's name");
+                leadName = sc.nextLine();
+                if (leadName.matches("/^([A-Z][a-z]+([ ]?[a-z]?['-]?[A-Z][a-z]+)*)$/")) {
+                    correct = true;
+                }
+                else {
+                    throw new InvalidParameterException("The name introduced is not valid, please only use letters");
+                }
+            } catch (InvalidParameterException e) {
 
-        System.out.println("Please input the new Lead's name");
-        String leadName = sc.nextLine();
-        //exception si el nombre es incorrecto
-        System.out.println("Please input the new Lead's phone number");
-        String leadPhone = sc.nextLine();
-        //If() to see if it's numbers only and proper lenght, otherwise, return exception
-        System.out.println("Please input the new Lead's email");
-        String leadEmail = sc.nextLine();
-        //Regex for emails to check if it's a valid email, return exception if not
-        System.out.println("Please input the new Lead's company name");
-        String leadCompany = sc.nextLine();
+                System.out.println("The name introduced is not valid, please only use letters");
+            }
+        }
 
+        correct = false;
+        while (!correct) {
+
+            try {
+                System.out.println("Please input the new Lead's phone number");
+                leadPhone = sc.nextLine();
+                if (leadPhone.matches("/^\\s*(?:\\+?(\\d{1,3}))?([-. (]*(\\d{3})[-. )]*)?((\\d{3})[-. ]*(\\d{2,4})(?:[-.x ]*(\\d+))?)\\s*$/gm")) {
+                    correct = true;
+                }
+                else {
+                    throw new InvalidParameterException("The phone number introduced is not valid, please only use letters");
+                }
+            } catch (InvalidParameterException e) {
+                correct = false;
+                System.out.println("The phone number introduced is not valid, please only use letters");
+            }
+        }
+
+        while (!correct) {
+            correct = false;
+            try {
+                System.out.println("Please input the new Lead's email");
+                leadEmail = sc.nextLine();
+                if (leadEmail.matches("/^(?:(?:[\\w`~!#$%^&*\\-=+;:{}'|,?\\/]+(?:(?:\\.(?:\"(?:\\\\?[\\w`~!#$%^&*\\-=+;:{}'|,?\\/\\.()<>\\[\\] @]|\\\\\"|\\\\\\\\)*\"|[\\w`~!#$%^&*\\-=+;:{}'|,?\\/]+))*\\.[\\w`~!#$%^&*\\-=+;:{}'|,?\\/]+)?)|(?:\"(?:\\\\?[\\w`~!#$%^&*\\-=+;:{}'|,?\\/\\.()<>\\[\\] @]|\\\\\"|\\\\\\\\)+\"))@(?:[a-zA-Z\\d\\-]+(?:\\.[a-zA-Z\\d\\-]+)*|\\[\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\])$/gm"))
+                {
+                    correct = true;
+
+                } else {
+                    throw new InvalidParameterException("The email address introduced is not valid, please use the proper format");
+                }
+            } catch (InvalidParameterException e) {
+                correct = false;
+                System.out.println("The email address introduced is not valid, please use the proper format");
+            }
+        }
+
+        while (!correct) {
+            correct = false;
+            try {
+                System.out.println("Please input the new Lead's company name");
+                leadCompany = sc.nextLine();
+                if (leadCompany.matches("/^(?:(?:[\\w`~!#$%^&*\\-=+;:{}'|,?\\/]+(?:(?:\\.(?:\"(?:\\\\?[\\w`~!#$%^&*\\-=+;:{}'|,?\\/\\.()<>\\[\\] @]|\\\\\"|\\\\\\\\)*\"|[\\w`~!#$%^&*\\-=+;:{}'|,?\\/]+))*\\.[\\w`~!#$%^&*\\-=+;:{}'|,?\\/]+)?)|(?:\"(?:\\\\?[\\w`~!#$%^&*\\-=+;:{}'|,?\\/\\.()<>\\[\\] @]|\\\\\"|\\\\\\\\)+\"))@(?:[a-zA-Z\\d\\-]+(?:\\.[a-zA-Z\\d\\-]+)*|\\[\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\])$/gm"))
+                {
+                    correct = true;
+
+                } else {
+                    throw new InvalidParameterException("The company name introduced is not valid, please only use letters");
+                }
+            } catch (InvalidParameterException e) {
+                correct = false;
+                System.out.println("The company introduced is not valid, please only use letters");
+            }
+        }
 
         Lead newLead = new Lead(leadName, leadPhone, leadEmail, leadCompany);
 
@@ -55,7 +115,7 @@ public class Lead {
 
     public static void showLeads() {
         if (leadList.size() == 0){
-            throw new RuntimeException("Currently our systems don't have any Leads in the database");
+            System.out.println("Currently our systems don't have any Leads in the database");
         } else {
             for (int i = 0; i < leadList.size(); i++) {
                 System.out.println("Lead with ID: " + leadList.get(i).getId() + " \n Name: " + leadList.get(i).getName());
@@ -67,27 +127,29 @@ public class Lead {
 
     public static void lookUpLead(int id) throws ClassNotFoundException {
         boolean found = false;
-        for (int i = 0; i < leadList.size(); i++) {
-            Integer leadID = leadList.get(i).getId();
-            if (leadID.equals(id)) {
-                System.out.println(
-                        "This ID corresponds to the Lead: " + leadList.get(i).getName() + " \n " +
-                        "Lead phone number: " + leadList.get(i).getPhoneNumber() + " \n" +
-                        "Lead Company: " + leadList.get(i).getCompanyName());
-                found = true;
-            } else {
-                for (int j = 0; j < oldLeadList.size() ; j++) {
-                    leadID = leadList.get(i).getId();
-                    if (leadID.equals(id)) {
-                        System.out.println("The ID you introduced corresponds to a Lead that has became an Opportunity " +
-                                "and is no longer in our system");
-                        found = true;
+        try {
+            for (int i = 0; i < leadList.size(); i++) {
+                Integer leadID = leadList.get(i).getId();
+                if (leadID.equals(id)) {
+                    System.out.println(
+                            "This ID corresponds to the Lead: " + leadList.get(i).getName() + " \n " +
+                                    "Lead phone number: " + leadList.get(i).getPhoneNumber() + " \n" +
+                                    "Lead Company: " + leadList.get(i).getCompanyName());
+                    found = true;
+                } else {
+                    for (int j = 0; j < oldLeadList.size(); j++) {
+                        leadID = leadList.get(i).getId();
+                        if (leadID.equals(id)) {
+                            System.out.println("The ID you introduced corresponds to a Lead that has became an Opportunity " +
+                                    "and is no longer in our system");
+                            found = true;
+                        }
                     }
                 }
+                throw new ClassNotFoundException("The ID you introduced doesn't correspond to any Lead in our system.");
             }
-        }
-        if (!found) {
-            throw new ClassNotFoundException("The ID you introduced doesn't correspond to any Lead in our system.");
+        } catch (ClassNotFoundException e) {
+            System.out.println("The ID you introduced doesn't correspond to any Lead in our system.");
         }
     }
 
