@@ -4,6 +4,7 @@ import Classes.Enums.Industry;
 import Classes.Enums.Product;
 import Classes.Enums.Status;
 
+import java.security.InvalidParameterException;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -34,19 +35,82 @@ public class Lead {
 
     public static void newLead() {
 
-        Scanner sc = new Scanner(System.in);
+        String leadName = "";
+        String leadPhone = "";
+        String leadEmail = "";
+        String leadCompany = "";
 
-        System.out.println("Please input the new Lead's name");
-        String leadName = sc.nextLine();
-        //exception si el nombre es incorrecto
-        System.out.println("Please input the new Lead's phone number");
-        String leadPhone = sc.nextLine();
-        //If() to see if it's numbers only and proper lenght, otherwise, return exception
-        System.out.println("Please input the new Lead's email");
-        String leadEmail = sc.nextLine();
-        //Regex for emails to check if it's a valid email, return exception if not
-        System.out.println("Please input the new Lead's company name");
-        String leadCompany = sc.nextLine();
+        Scanner sc = new Scanner(System.in);
+        boolean correct = false;
+
+        while (!correct) {
+            try {
+                System.out.println("Please input the new Lead's name");
+                leadName = sc.nextLine();
+                if (leadName.matches("/^([A-Z][a-z]+([ ]?[a-z]?['-]?[A-Z][a-z]+)*)$/")) {
+                    correct = true;
+                }
+                else {
+                    throw new InvalidParameterException("The name introduced is not valid, please only use letters");
+                }
+            } catch (InvalidParameterException e) {
+
+                System.out.println("The name introduced is not valid, please only use letters");
+            }
+        }
+
+        correct = false;
+        while (!correct) {
+
+            try {
+                System.out.println("Please input the new Lead's phone number");
+                leadPhone = sc.nextLine();
+                if (leadPhone.matches("/^\\s*(?:\\+?(\\d{1,3}))?([-. (]*(\\d{3})[-. )]*)?((\\d{3})[-. ]*(\\d{2,4})(?:[-.x ]*(\\d+))?)\\s*$/gm")) {
+                    correct = true;
+                }
+                else {
+                    throw new InvalidParameterException("The phone number introduced is not valid, please only use letters");
+                }
+            } catch (InvalidParameterException e) {
+                correct = false;
+                System.out.println("The phone number introduced is not valid, please only use letters");
+            }
+        }
+        while (!correct) {
+            correct = false;
+            try {
+                System.out.println("Please input the new Lead's email");
+                leadEmail = sc.nextLine();
+                if (leadEmail.matches("/^(?:(?:[\\w`~!#$%^&*\\-=+;:{}'|,?\\/]+(?:(?:\\.(?:\"(?:\\\\?[\\w`~!#$%^&*\\-=+;:{}'|,?\\/\\.()<>\\[\\] @]|\\\\\"|\\\\\\\\)*\"|[\\w`~!#$%^&*\\-=+;:{}'|,?\\/]+))*\\.[\\w`~!#$%^&*\\-=+;:{}'|,?\\/]+)?)|(?:\"(?:\\\\?[\\w`~!#$%^&*\\-=+;:{}'|,?\\/\\.()<>\\[\\] @]|\\\\\"|\\\\\\\\)+\"))@(?:[a-zA-Z\\d\\-]+(?:\\.[a-zA-Z\\d\\-]+)*|\\[\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\])$/gm"))
+                {
+                    correct = true;
+
+                } else {
+                    throw new InvalidParameterException("The email address introduced is not valid, please use the proper format");
+                }
+            } catch (InvalidParameterException e) {
+                correct = false;
+                System.out.println("The email address introduced is not valid, please use the proper format");
+            }
+        }
+
+        while (!correct) {
+            correct = false;
+            try {
+                System.out.println("Please input the new Lead's company name");
+                leadCompany = sc.nextLine();
+                if (leadCompany.matches("/^(?:(?:[\\w`~!#$%^&*\\-=+;:{}'|,?\\/]+(?:(?:\\.(?:\"(?:\\\\?[\\w`~!#$%^&*\\-=+;:{}'|,?\\/\\.()<>\\[\\] @]|\\\\\"|\\\\\\\\)*\"|[\\w`~!#$%^&*\\-=+;:{}'|,?\\/]+))*\\.[\\w`~!#$%^&*\\-=+;:{}'|,?\\/]+)?)|(?:\"(?:\\\\?[\\w`~!#$%^&*\\-=+;:{}'|,?\\/\\.()<>\\[\\] @]|\\\\\"|\\\\\\\\)+\"))@(?:[a-zA-Z\\d\\-]+(?:\\.[a-zA-Z\\d\\-]+)*|\\[\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\])$/gm"))
+                {
+                    correct = true;
+
+                } else {
+                    throw new InvalidParameterException("The company name introduced is not valid, please only use letters");
+                }
+            } catch (InvalidParameterException e) {
+                correct = false;
+                System.out.println("The company introduced is not valid, please only use letters");
+            }
+        }
 
 
         Lead newLead = new Lead(leadName, leadPhone, leadEmail, leadCompany);
