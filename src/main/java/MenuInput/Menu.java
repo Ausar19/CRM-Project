@@ -10,21 +10,40 @@ import java.util.*;
 public class Menu {
 
     static int id;
-
     public static void start() throws ClassNotFoundException {
+
+        System.out.println("     _______.     ___       __       _______     _______.   .___  ___.      ___      .__   __.      ___       _______  _______ .______      \n" +
+                "    /       |    /   \\     |  |     |   ____|   /       |   |   \\/   |     /   \\     |  \\ |  |     /   \\     /  _____||   ____||   _  \\     \n" +
+                "   |   (----`   /  ^  \\    |  |     |  |__     |   (----`   |  \\  /  |    /  ^  \\    |   \\|  |    /  ^  \\   |  |  __  |  |__   |  |_)  |    \n" +
+                "    \\   \\      /  /_\\  \\   |  |     |   __|     \\   \\       |  |\\/|  |   /  /_\\  \\   |  . `  |   /  /_\\  \\  |  | |_ | |   __|  |      /     \n" +
+                ".----)   |    /  _____  \\  |  `----.|  |____.----)   |      |  |  |  |  /  _____  \\  |  |\\   |  /  _____  \\ |  |__| | |  |____ |  |\\  \\----.\n" +
+                "|_______/    /__/     \\__\\ |_______||_______|_______/       |__|  |__| /__/     \\__\\ |__| \\__| /__/     \\__\\ \\______| |_______|| _| `._____|\n" +
+                "                                                                                                                                            ");
+
+
         Scanner input = new Scanner(System.in);
+
         String exit = null;
+
         int id = 0;
+
+        System.out.println("List of available commands:\n- New Lead\n- Show Leads\n- Show Opportunities\n- Show Accounts" +
+                "\n- Lookup Lead ID\n- Lookup Opportunity ID\n- Lookup Account ID\n- Convert ID\n- Close Lost ID\n- Close Won ID\n- Help\n- Exit");
+
+        System.out.println("You will able to acces to the instrucction typing the Help command");
+        //Creamos un loop indeterminado el cual parara de ejecutarse si el objeto exit contiene "exit"
         while (!Objects.equals(exit, "exit")) {
 
-            System.out.println("List of available commands:\n- New Lead\n- Show Leads\n- Show Opportunities\n- Show Accounts\n- Lookup Lead ID\n- Convert ID\n- Close Lost ID\n- Close Won ID\n- Exit");
 
+            //Generamos una variable la cual relacionamos con el scanner haciendolo case sensitive
             String command = input.nextLine().toLowerCase().trim();
 
+            //Igualamos command con exit para que si en algun momento el usuario introdujera exit, irrumpiria el loop
             exit = command;
 
+            //Aqui hacemos un split de los comandos siguientes para poder extraer el id de los strings introducidos por el usuario
             if (command.contains("lookup account") || command.contains("lookup opportunity") ||
-                command.contains("lookup lead") || command.contains("close lost") || command.contains("close won")) {
+                    command.contains("lookup lead") || command.contains("close lost") || command.contains("close won")) {
                 String[] splitCommand = command.split(" ");
                 try {
                     id = Integer.parseInt(splitCommand[splitCommand.length - 1]);
@@ -42,10 +61,12 @@ public class Menu {
                     id = Integer.parseInt(splitCommand[splitCommand.length - 1]);
                 }catch(NumberFormatException e){
                     command = "EXCEPTION";
-
+                    //En el caso que no se haya introducido un ID correcto saltara una excepcion
                 }
 
             }
+
+            //Dependiendo de el comand introducido el switch llamara a los metodos que corresponden segun su comando
             switch (command) {
 
                 case "new lead" -> Lead.newLead();
@@ -68,6 +89,10 @@ public class Menu {
 
                 case "close won" -> Opportunity.closeWon(id);
 
+                case "help" -> System.out.println("List of available commands:\n- New Lead\n- Show Leads\n- " +
+                        "Show Opportunities\n- Show Accounts\n- Lookup Lead ID\n- Lookup Opportunity ID\n- Lookup Account ID" +
+                        "\n- Convert ID\n- Close Lost ID\n- Close Won ID\n- Exit");
+
                 case "EXCEPTION" -> System.err.println("Invalid Id number.");
 
                 default -> {
@@ -78,3 +103,17 @@ public class Menu {
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
