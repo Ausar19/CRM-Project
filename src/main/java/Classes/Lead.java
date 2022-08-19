@@ -70,7 +70,7 @@ public class Lead {
 
 
         Lead newLead = new Lead(leadName, leadPhone, leadEmail, leadCompany);
-
+        System.out.println("Lead successfully created!");
         leadList.add(newLead);
     }
 
