@@ -113,6 +113,7 @@ public class Lead {
     }
 
     public static void convertID(int idNum) {
+        String regex = "([A-Z][a-z]+([ ]?[a-z]?['-]?)*)+";
 
         Scanner input = new Scanner(System.in);
         boolean found = false;
@@ -154,7 +155,7 @@ public class Lead {
                                 }
                             }
                         }
-                        //Creates a new Contact with the Lead's data
+                        //Creates a new Contact with the Lead's data, adds it and Opportunity in the respective lists
                         Contact contact = new Contact(leadList.get(i).getName(), leadList.get(i).getPhoneNumber(), leadList.get(i).getEmail(), leadList.get(i).getCompanyName());
                         contactList.add(contact);
                         Opportunity opportunity = new Opportunity(product, truckNum, contact, Status.OPEN);
@@ -174,7 +175,7 @@ public class Lead {
                         System.out.println("City name: ");
                         String city = input.nextLine();
 
-                        while (!city.matches(nameRegex)) {
+                        while (!city.matches(regex)) {
                             System.out.println("Please, insert a valid city name capitalized (for example 'New York'): ");
                             city = input.nextLine();
                         }
@@ -182,8 +183,8 @@ public class Lead {
                         System.out.println("Country of the organization: ");
                         String country = input.nextLine();
 
-                        while (!country.matches(nameRegex)) {
-                            System.out.println("Please, insert a valid country name: ");
+                        while (!country.matches(regex)) {
+                            System.out.println("Please, insert a valid country name with the first letter capitalized: ");
                             country = input.nextLine();
                         }
 
