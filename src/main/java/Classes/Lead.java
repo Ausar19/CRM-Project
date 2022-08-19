@@ -49,14 +49,14 @@ public class Lead {
                 while(!leadName.matches(nameRegex)) {
                     System.out.println("The name introduced is not valid, please only use letters and capitalize the first one of each name.");
                     leadName = sc.nextLine();
-            }
+                }
 
                 System.out.println("Please input the new Lead's phone number");
                 String leadPhone = sc.nextLine();
                 while(!leadPhone.matches(phoneRegex)) {
                 System.out.println("The phone number introduced is not valid, please only use numbers");
                     leadPhone = sc.nextLine();
-            }
+                }
 
                 System.out.println("Please input the new Lead's email");
                 String leadEmail = sc.nextLine();
@@ -83,7 +83,6 @@ public class Lead {
                 System.out.println("===");
             }
         }
-
     }
 
     public static void lookUpLead(int id){

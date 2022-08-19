@@ -14,7 +14,7 @@ public class Opportunity {
     private Contact decisionMaker;
     private Status status;
 
-    private static int idCounter = 0;
+    private static int idCounter;
 
 
     public static List<Opportunity> opportunitiesList = new ArrayList<>();

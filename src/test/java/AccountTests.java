@@ -14,16 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class AccountTests {
 
-    @BeforeEach
-    void setUp() {
-        Lead lead1 = new Lead("Alessio", "623 23 43 13", "email@email.com", "Ironhack");
-    }
 
-    @Test
-    void testLeadLookUp() {
-
-
-    }
 
 
 }
