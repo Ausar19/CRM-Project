@@ -30,7 +30,6 @@ public class Menu {
         System.out.println("List of available commands:\n- New Lead\n- Show Leads\n- Show Opportunities\n- Show Accounts" +
                 "\n- Lookup Lead ID\n- Lookup Opportunity ID\n- Lookup Account ID\n- Convert ID\n- Close Lost ID\n- Close Won ID\n- Help\n- Exit");
 
-        System.out.println("You will able to acces to the instrucction typing the Help command");
         //Creamos un loop indeterminado el cual parara de ejecutarse si el objeto exit contiene "exit"
         while (!Objects.equals(exit, "exit")) {
 
