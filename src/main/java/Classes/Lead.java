@@ -208,7 +208,7 @@ public class Lead {
                             }
                         }
 
-                        //Creates a new Account and a list for Contact and Opportunity
+                        //Creates a new Account and adds it in the list
                         Account account = new Account(industry, employees, city, country, contactList, opportunityList);
                         Account.accountsList.add(account);
 
