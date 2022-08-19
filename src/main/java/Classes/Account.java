@@ -31,9 +31,11 @@ public class Account {
 
 
     public static void showAccounts() {
+        //we check to see if the arraylist is empty, so we can display the proper message
         if (accountsList.size() == 0) {
             System.out.println("Currently our systems don't have any Accounts in the database");
         }
+        //otherwise, we proceed to print out all of the accounts in the system.
         for (int i = 0; i < accountsList.size(); i++) {
             System.out.println("Account with ID: " + accountsList.get(i).getId() + "\n" +
                     accountsList.get(i).getIndustry() + " company based in: " + accountsList.get(i).getCity() + ", " +
@@ -43,9 +45,7 @@ public class Account {
     }
 
     public static void lookUpAccount(int id){
-        if (accountsList.size() == 0){
-            System.out.println("There are no Accounts saved in our database.");
-        } else {
+        //we search the ID on the list of accounts in the system, to check if we find it and we can print the information
             for (int i = 0; i < accountsList.size(); i++) {
                 Integer leadID = accountsList.get(i).getId();
                 if (leadID.equals(id)) {
@@ -59,9 +59,6 @@ public class Account {
                 }
             }
         }
-
-    }
-
 
     //getters
     public int getId() {

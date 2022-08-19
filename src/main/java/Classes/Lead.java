@@ -42,6 +42,8 @@ public class Lead {
 
     public static void newLead() {
 
+        //With this method we simply call the Scanner so that we can get the 4 parameters to create a new lead.
+        //And then test if they are valid matching them with the existing Regex variables.
         Scanner sc = new Scanner(System.in);
 
                 System.out.println("Please input the new Lead's name");
@@ -69,15 +71,19 @@ public class Lead {
                 String leadCompany = sc.nextLine();
 
 
-        Lead newLead = new Lead(leadName, leadPhone, leadEmail, leadCompany);
+                //once all the parameters are valid, we simply create the Lead.
+                Lead newLead = new Lead(leadName, leadPhone, leadEmail, leadCompany);
 
-        leadList.add(newLead);
+                leadList.add(newLead);
     }
 
     public static void showLeads() {
+        //we check to see if the arraylist is empty, so we can display the proper message
         if (leadList.size() == 0) {
             System.out.println("Currently our systems don't have any Leads in the database");
-        } else {
+        }
+        //otherwise, we proceed to print out all of the leads in the system.
+        else {
             for (int i = 0; i < leadList.size(); i++) {
                 System.out.println("Lead with ID: " + leadList.get(i).getId() + " \n Name: " + leadList.get(i).getName());
                 System.out.println("===");
@@ -86,6 +92,7 @@ public class Lead {
     }
 
     public static void lookUpLead(int id){
+        //we search the ID on the list of leads in the system, to check if we find it and we can print the information
         boolean found = false;
         for (int i = 0; i < leadList.size(); i++) {
             Integer leadID = leadList.get(i).getId();
@@ -96,6 +103,8 @@ public class Lead {
                                 "Lead Company: " + leadList.get(i).getCompanyName());
                 found = true;
             } else {
+                //if the ID is not found in the leadsList, but it IS found in the list of old leads, the system
+                //will inform the user that the lead is no longer active, and is now an opportunity.
                 for (int j = 0; j < oldLeadList.size(); j++) {
                     leadID = leadList.get(i).getId();
                     if (leadID.equals(id)) {
@@ -106,6 +115,7 @@ public class Lead {
                 }
             }
         }
+        //and we have one last if to check if the ID is not found at all, and hence doesn't exist in the systems.
         if (!found) {
             System.out.println("The ID you introduced doesn't correspond to any Lead in our system.");
         }

@@ -68,6 +68,7 @@ public class Opportunity {
     }
 
     public static void lookUpOpportunity(int id) {
+        //we search the ID on the list of opportunities in the system, to check if we find it and we can print the information
         if (opportunitiesList.size() == 0){
             System.out.println("There are no Opportunities saved in our database.");
         } else {
