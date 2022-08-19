@@ -33,6 +33,7 @@ public class Opportunity {
         for (int i = 0; i < opportunitiesList.size(); i++) {
             if (opportunitiesList.get(i).getId() == id) {
                 opportunitiesList.get(i).setStatus(Status.CLOSED_LOST);
+                System.out.println("The opportunity status has been updated to lost!");
                 found = true;
             }
         }
@@ -46,6 +47,7 @@ public class Opportunity {
         for (int i = 0; i < opportunitiesList.size(); i++) {
             if (opportunitiesList.get(i).getId() == id) {
                 opportunitiesList.get(i).setStatus(Status.CLOSED_WON);
+                System.out.println("The opportunity status has been updated to won!");
                 found = true;
             }
         }
