@@ -32,7 +32,7 @@ public class Account {
 
     public static void showAccounts() {
         if (accountsList.size() == 0) {
-            throw new RuntimeException("Currently our systems don't have any Accounts in the database");
+            System.out.println("Currently our systems don't have any Accounts in the database");
         }
         for (int i = 0; i < accountsList.size(); i++) {
             System.out.println("Account with ID: " + accountsList.get(i).getId() + "\n" +
@@ -42,9 +42,9 @@ public class Account {
         }
     }
 
-    public static void lookUpAccount(int id) throws RuntimeException{
+    public static void lookUpAccount(int id){
         if (accountsList.size() == 0){
-            throw new RuntimeException("There are no Accounts saved in our database.");
+            System.out.println("There are no Accounts saved in our database.");
         } else {
             for (int i = 0; i < accountsList.size(); i++) {
                 Integer leadID = accountsList.get(i).getId();
@@ -55,7 +55,7 @@ public class Account {
                             " company with " + accountsList.get(i).getEmployeeCount() + "employees. \n" +
                             "It's based in " + accountsList.get(i).getCity() + ", " + accountsList.get(i).getCountry() + ".");
                 } else {
-                    throw new IllegalArgumentException("The ID you introduced doesn't correspond with any Account in our database.");
+                    System.out.println("The ID you introduced doesn't correspond with any Account in our database.");
                 }
             }
         }

@@ -37,11 +37,11 @@ public class Opportunity {
             }
         }
         if (!found) {
-            throw new ClassNotFoundException("The ID provided does not correspond to any existing opportunities.");
+            System.out.println("The ID provided does not correspond to any existing opportunities.");
         }
     }
 
-    public static void closeWon(int id) throws ClassNotFoundException {
+    public static void closeWon(int id){
         boolean found = false;
         for (int i = 0; i < opportunitiesList.size(); i++) {
             if (opportunitiesList.get(i).getId() == id) {
@@ -50,14 +50,14 @@ public class Opportunity {
             }
         }
         if (!found) {
-            throw new ClassNotFoundException("The ID provided does not correspond to any existing opportunities.");
+            System.out.println("The ID provided does not correspond to any existing opportunities.");
         }
     }
 
 
     public static void showOpportunities() {
         if (opportunitiesList.size() == 0) {
-            throw new RuntimeException("Currently our systems don't have any Opportunities in the database");
+            System.out.println("Currently our systems don't have any Opportunities in the database");
         }
         for (int i = 0; i < opportunitiesList.size(); i++) {
             System.out.println("Opportunity with ID: " + opportunitiesList.get(i).getId() + "\n Product type: " + opportunitiesList.get(i).getProduct() + "\n Quantity of trucks: " + opportunitiesList.get(i).getQuantity());
@@ -67,7 +67,7 @@ public class Opportunity {
 
     public static void lookUpOpportunity(int id) {
         if (opportunitiesList.size() == 0){
-            throw new RuntimeException("There are no Opportunities saved in our database.");
+            System.out.println("There are no Opportunities saved in our database.");
         } else {
             for (int i = 0; i < opportunitiesList.size(); i++) {
                 Integer leadID = opportunitiesList.get(i).getId();
@@ -77,7 +77,7 @@ public class Opportunity {
                                     "It's " + opportunitiesList.get(i).getQuantity() + "trucks of " + opportunitiesList.get(i).getProduct() + "products. \n" +
                                     "It's current status is; " + opportunitiesList.get(i).getStatus());
                 } else {
-                    throw new IllegalArgumentException("The ID you introduced doesn't correspond with any Opportunities in our database.");
+                    System.out.println("The ID you introduced doesn't correspond with any Opportunities in our database.");
                 }
             }
         }

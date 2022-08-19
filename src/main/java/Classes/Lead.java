@@ -29,23 +29,25 @@ public class Lead {
         this.companyName = companyName;
     }
 
-    static String nameRegex = "/^([A-Z][a-z]+([ ]?[a-z]?['-]?[A-Z][a-z]+)*)$/";
-    static String phoneRegex = "/^\\s*(?:\\+?(\\d{1,3}))?([-. (]*(\\d{3})[-. )]*)?((\\d{3})[-. ]*(\\d{2,4})(?:[-.x ]*(\\d+))?)\\s*$/gm";
-    static String emailRegex = "/^(?:(?:[\\w`~!#$%^&*\\-=+;:{}'|,?\\/]+(?:(?:\\.(?:\"(?:\\\\?[\\w`~!#$%^&*\\-=+;:{}'|,?\\/\\.()<>\\[\\] @]|\\\\\"|\\\\\\\\)*\"|[\\w`~!#$%^&*\\-=+;:{}'|,?\\/]+))*\\.[\\w`~!#$%^&*\\-=+;:{}'|,?\\/]+)?)|(?:\"(?:\\\\?[\\w`~!#$%^&*\\-=+;:{}'|,?\\/\\.()<>\\[\\] @]|\\\\\"|\\\\\\\\)+\"))@(?:[a-zA-Z\\d\\-]+(?:\\.[a-zA-Z\\d\\-]+)*|\\[\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\])$/gm";
-    static ArrayList<Lead> leadList = new ArrayList<Lead>();
+    //We create the different Regex in variables so they can be easily called/accessed by the different methods without having to write them every single time.
+    static String nameRegex = "^[A-Z][a-z]*[ ][A-Z][a-z]*$";
+    static String phoneRegex = "^\\s*(?:\\+?(\\d{1,3}))?([-. (]*(\\d{3})[-. )]*)?((\\d{3})[-. ]*(\\d{2,4})(?:[-.x ]*(\\d+))?)\\s*$";
+    static String emailRegex = "([\\w\\.\\-_]+)?\\w+@[\\w-_]+(\\.\\w+){1,}";
 
+    //We create a leadList so that they are all in the same list so that they can be accessed by show Leads
+    static ArrayList<Lead> leadList = new ArrayList<Lead>();
+    //We create an "oldLeadList" so that once the leads are converted and removed from the system, users should still be able to search that ID
+    //and recieve that the lead with that ID is no longer in the system, aswell as a separate message if that ID doesn't exist/was never in the system.
     static ArrayList<Lead> oldLeadList = new ArrayList<Lead>();
 
     public static void newLead() {
-
-
 
         Scanner sc = new Scanner(System.in);
 
                 System.out.println("Please input the new Lead's name");
                 String leadName = sc.nextLine();
                 while(!leadName.matches(nameRegex)) {
-                    System.out.println("The name introduced is not valid, please only use letters");
+                    System.out.println("The name introduced is not valid, please only use letters and capitalize the first one of each name.");
                     leadName = sc.nextLine();
             }
 
@@ -74,7 +76,7 @@ public class Lead {
 
     public static void showLeads() {
         if (leadList.size() == 0) {
-            throw new RuntimeException("Currently our systems don't have any Leads in the database");
+            System.out.println("Currently our systems don't have any Leads in the database");
         } else {
             for (int i = 0; i < leadList.size(); i++) {
                 System.out.println("Lead with ID: " + leadList.get(i).getId() + " \n Name: " + leadList.get(i).getName());
@@ -84,7 +86,7 @@ public class Lead {
 
     }
 
-    public static void lookUpLead(int id) throws ClassNotFoundException {
+    public static void lookUpLead(int id){
         boolean found = false;
         for (int i = 0; i < leadList.size(); i++) {
             Integer leadID = leadList.get(i).getId();

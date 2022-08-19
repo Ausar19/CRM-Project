@@ -1,6 +1,7 @@
 import Classes.Account;
 import Classes.Contact;
 import Classes.Enums.Industry;
+import Classes.Lead;
 import Classes.Opportunity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,15 +16,12 @@ public class AccountTests {
 
     @BeforeEach
     void setUp() {
-        List<Contact> contactList = new ArrayList<>();
-        List<Opportunity> opportunityList = new ArrayList<>();
-        Account expected = new Account(Industry.MEDICAL, 123, "Paris", "France", contactList, opportunityList);
+        Lead lead1 = new Lead("Alessio", "623 23 43 13", "email@email.com", "Ironhack");
     }
 
     @Test
-    void testLoopUp() {
+    void testLeadLookUp() {
 
-        assertThrows(RuntimeException.class, () -> Account.lookUpAccount(3));
 
     }
 
