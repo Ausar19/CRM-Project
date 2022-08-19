@@ -30,7 +30,7 @@ public class Lead {
     }
 
     //We create the different Regex in variables so they can be easily called/accessed by the different methods without having to write them every single time.
-    static String nameRegex = "^[A-Z][a-z]*[ ][A-Z][a-z]*$";
+    static String nameRegex = "^[A-Z][a-z]*[ ][A-Z][a-z]+$";
     static String phoneRegex = "^\\s*(?:\\+?(\\d{1,3}))?([-. (]*(\\d{3})[-. )]*)?((\\d{3})[-. ]*(\\d{2,4})(?:[-.x ]*(\\d+))?)\\s*$";
     static String emailRegex = "([\\w\\.\\-_]+)?\\w+@[\\w-_]+(\\.\\w+){1,}";
 
@@ -115,8 +115,11 @@ public class Lead {
     public static void convertID(int idNum) {
 
         Scanner input = new Scanner(System.in);
-        Pattern regex = Pattern.compile("[\sS]*[^a-z-A-Z]+");
         boolean found = false;
+
+        List<Opportunity> opportunityList = new ArrayList<>();
+        List<Contact> contactList = new ArrayList<>();
+
 
         //Since it's a long process, this allows the user to interrupt it from the beginning
         System.out.println("Press Enter to process the conversion or type 'exit' to quit.");
@@ -153,8 +156,10 @@ public class Lead {
                         }
                         //Creates a new Contact with the Lead's data
                         Contact contact = new Contact(leadList.get(i).getName(), leadList.get(i).getPhoneNumber(), leadList.get(i).getEmail(), leadList.get(i).getCompanyName());
+                        contactList.add(contact);
                         Opportunity opportunity = new Opportunity(product, truckNum, contact, Status.OPEN);
                         Opportunity.opportunitiesList.add(opportunity);
+                        opportunityList.add(opportunity);
 
                     } catch (InputMismatchException e) {
                         System.out.println("Please, insert a proper kind of data for each field.\n");
@@ -164,22 +169,22 @@ public class Lead {
 
                     try {
                         //Account info
-
+                        input.nextLine();
                         System.out.println("Opportunity successfully created! To complete the process you must create an Account.");
                         System.out.println("City name: ");
-                        String city = input.next();
+                        String city = input.nextLine();
 
-                        while (city.matches(String.valueOf(regex))) {
-                            System.out.println("Please, insert a valid city name: ");
-                            city = input.next();
+                        while (!city.matches(nameRegex)) {
+                            System.out.println("Please, insert a valid city name capitalized (for example 'New York'): ");
+                            city = input.nextLine();
                         }
 
                         System.out.println("Country of the organization: ");
-                        String country = input.next();
+                        String country = input.nextLine();
 
-                        while (country.matches(String.valueOf(regex))) {
+                        while (!country.matches(nameRegex)) {
                             System.out.println("Please, insert a valid country name: ");
-                            country = input.next();
+                            country = input.nextLine();
                         }
 
                         System.out.println("Number of employees: ");
@@ -204,9 +209,8 @@ public class Lead {
                         }
 
                         //Creates a new Account and a list for Contact and Opportunity
-                        List<Contact> contactList = new ArrayList<>();
-                        List<Opportunity> opportunityList = new ArrayList<>();
                         Account account = new Account(industry, employees, city, country, contactList, opportunityList);
+                        Account.accountsList.add(account);
 
                         //Add Lead to another list and delete it from the current one
                         oldLeadList.add(leadList.get(i));
