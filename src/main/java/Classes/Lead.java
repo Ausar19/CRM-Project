@@ -29,87 +29,42 @@ public class Lead {
         this.companyName = companyName;
     }
 
+    static String nameRegex = "/^([A-Z][a-z]+([ ]?[a-z]?['-]?[A-Z][a-z]+)*)$/";
+    static String phoneRegex = "/^\\s*(?:\\+?(\\d{1,3}))?([-. (]*(\\d{3})[-. )]*)?((\\d{3})[-. ]*(\\d{2,4})(?:[-.x ]*(\\d+))?)\\s*$/gm";
+    static String emailRegex = "/^(?:(?:[\\w`~!#$%^&*\\-=+;:{}'|,?\\/]+(?:(?:\\.(?:\"(?:\\\\?[\\w`~!#$%^&*\\-=+;:{}'|,?\\/\\.()<>\\[\\] @]|\\\\\"|\\\\\\\\)*\"|[\\w`~!#$%^&*\\-=+;:{}'|,?\\/]+))*\\.[\\w`~!#$%^&*\\-=+;:{}'|,?\\/]+)?)|(?:\"(?:\\\\?[\\w`~!#$%^&*\\-=+;:{}'|,?\\/\\.()<>\\[\\] @]|\\\\\"|\\\\\\\\)+\"))@(?:[a-zA-Z\\d\\-]+(?:\\.[a-zA-Z\\d\\-]+)*|\\[\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\])$/gm";
     static ArrayList<Lead> leadList = new ArrayList<Lead>();
 
     static ArrayList<Lead> oldLeadList = new ArrayList<Lead>();
 
     public static void newLead() {
 
-        String leadName = "";
-        String leadPhone = "";
-        String leadEmail = "";
-        String leadCompany = "";
+
 
         Scanner sc = new Scanner(System.in);
 
-        boolean correct = false;
-        while (!correct) {
-            try {
                 System.out.println("Please input the new Lead's name");
-                leadName = sc.nextLine();
-                if (leadName.matches("/^([A-Z][a-z]+([ ]?[a-z]?['-]?[A-Z][a-z]+)*)$/")) {
-                    correct = true;
-                }
-                else {
-                    throw new InvalidParameterException("The name introduced is not valid, please only use letters");
-                }
-            } catch (InvalidParameterException e) {
-
-                System.out.println("The name introduced is not valid, please only use letters");
+                String leadName = sc.nextLine();
+                while(!leadName.matches(nameRegex)) {
+                    System.out.println("The name introduced is not valid, please only use letters");
+                    leadName = sc.nextLine();
             }
-        }
 
-        correct = false;
-        while (!correct) {
-
-            try {
                 System.out.println("Please input the new Lead's phone number");
-                leadPhone = sc.nextLine();
-                if (leadPhone.matches("/^\\s*(?:\\+?(\\d{1,3}))?([-. (]*(\\d{3})[-. )]*)?((\\d{3})[-. ]*(\\d{2,4})(?:[-.x ]*(\\d+))?)\\s*$/gm")) {
-                    correct = true;
-                }
-                else {
-                    throw new InvalidParameterException("The phone number introduced is not valid, please only use letters");
-                }
-            } catch (InvalidParameterException e) {
-                correct = false;
-                System.out.println("The phone number introduced is not valid, please only use letters");
+                String leadPhone = sc.nextLine();
+                while(!leadPhone.matches(phoneRegex)) {
+                System.out.println("The phone number introduced is not valid, please only use numbers");
+                    leadPhone = sc.nextLine();
             }
-        }
 
-        correct = false;
-        while (!correct) {
-
-            try {
                 System.out.println("Please input the new Lead's email");
-                leadEmail = sc.nextLine();
-                if (leadEmail.matches("/^(?:(?:[\\w`~!#$%^&*\\-=+;:{}'|,?\\/]+(?:(?:\\.(?:\"(?:\\\\?[\\w`~!#$%^&*\\-=+;:{}'|,?\\/\\.()<>\\[\\] @]|\\\\\"|\\\\\\\\)*\"|[\\w`~!#$%^&*\\-=+;:{}'|,?\\/]+))*\\.[\\w`~!#$%^&*\\-=+;:{}'|,?\\/]+)?)|(?:\"(?:\\\\?[\\w`~!#$%^&*\\-=+;:{}'|,?\\/\\.()<>\\[\\] @]|\\\\\"|\\\\\\\\)+\"))@(?:[a-zA-Z\\d\\-]+(?:\\.[a-zA-Z\\d\\-]+)*|\\[\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\])$/gm"))
-                {
-                    correct = true;
-
-                } else {
-                    throw new InvalidParameterException("The email address introduced is not valid, please use the proper format");
+                String leadEmail = sc.nextLine();
+                while (!leadEmail.matches(emailRegex)) {
+                    System.out.println("The email address introduced is not valid, please use the proper format");
+                    leadEmail = sc.nextLine();
                 }
-            } catch (InvalidParameterException e) {
-                correct = false;
-                System.out.println("The email address introduced is not valid, please use the proper format");
-            }
-        }
-
-        correct = false;
-        while (!correct) {
 
                 System.out.println("Please input the new Lead's company name");
-                leadCompany = sc.nextLine();
-                if (leadCompany.matches("/^(?:(?:[\\w`~!#$%^&*\\-=+;:{}'|,?\\/]+(?:(?:\\.(?:\"(?:\\\\?[\\w`~!#$%^&*\\-=+;:{}'|,?\\/\\.()<>\\[\\] @]|\\\\\"|\\\\\\\\)*\"|[\\w`~!#$%^&*\\-=+;:{}'|,?\\/]+))*\\.[\\w`~!#$%^&*\\-=+;:{}'|,?\\/]+)?)|(?:\"(?:\\\\?[\\w`~!#$%^&*\\-=+;:{}'|,?\\/\\.()<>\\[\\] @]|\\\\\"|\\\\\\\\)+\"))@(?:[a-zA-Z\\d\\-]+(?:\\.[a-zA-Z\\d\\-]+)*|\\[\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\])$/gm"))
-                {
-                    correct = true;
-
-                } else {
-                    System.out.println("The company name introduced is not valid, please only use letters");
-                }
-            }
-
+                String leadCompany = sc.nextLine();
 
 
         Lead newLead = new Lead(leadName, leadPhone, leadEmail, leadCompany);
