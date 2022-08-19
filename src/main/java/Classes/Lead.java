@@ -41,8 +41,8 @@ public class Lead {
         String leadCompany = "";
 
         Scanner sc = new Scanner(System.in);
-        boolean correct = false;
 
+        boolean correct = false;
         while (!correct) {
             try {
                 System.out.println("Please input the new Lead's name");
@@ -76,8 +76,10 @@ public class Lead {
                 System.out.println("The phone number introduced is not valid, please only use letters");
             }
         }
+
+        correct = false;
         while (!correct) {
-            correct = false;
+
             try {
                 System.out.println("Please input the new Lead's email");
                 leadEmail = sc.nextLine();
@@ -94,9 +96,9 @@ public class Lead {
             }
         }
 
+        correct = false;
         while (!correct) {
-            correct = false;
-            try {
+
                 System.out.println("Please input the new Lead's company name");
                 leadCompany = sc.nextLine();
                 if (leadCompany.matches("/^(?:(?:[\\w`~!#$%^&*\\-=+;:{}'|,?\\/]+(?:(?:\\.(?:\"(?:\\\\?[\\w`~!#$%^&*\\-=+;:{}'|,?\\/\\.()<>\\[\\] @]|\\\\\"|\\\\\\\\)*\"|[\\w`~!#$%^&*\\-=+;:{}'|,?\\/]+))*\\.[\\w`~!#$%^&*\\-=+;:{}'|,?\\/]+)?)|(?:\"(?:\\\\?[\\w`~!#$%^&*\\-=+;:{}'|,?\\/\\.()<>\\[\\] @]|\\\\\"|\\\\\\\\)+\"))@(?:[a-zA-Z\\d\\-]+(?:\\.[a-zA-Z\\d\\-]+)*|\\[\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\])$/gm"))
@@ -104,13 +106,10 @@ public class Lead {
                     correct = true;
 
                 } else {
-                    throw new InvalidParameterException("The company name introduced is not valid, please only use letters");
+                    System.out.println("The company name introduced is not valid, please only use letters");
                 }
-            } catch (InvalidParameterException e) {
-                correct = false;
-                System.out.println("The company introduced is not valid, please only use letters");
             }
-        }
+
 
 
         Lead newLead = new Lead(leadName, leadPhone, leadEmail, leadCompany);
@@ -152,7 +151,7 @@ public class Lead {
             }
         }
         if (!found) {
-            throw new ClassNotFoundException("The ID you introduced doesn't correspond to any Lead in our system.");
+            System.out.println("The ID you introduced doesn't correspond to any Lead in our system.");
         }
     }
 
